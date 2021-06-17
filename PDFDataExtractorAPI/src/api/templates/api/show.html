@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 {% body block %}
-
+<table>
+    <tr>
+        <thead>Mobiles</thead>
+        <thead>Emails</thead>
+        <thead>Locations</thead>
+    </tr>
+    {% for row in range(len(emails)) %}
+    <tr>
+        <td>{{ mobiles[{{row}}] }}</td>
+        <td>{{ emails[{{row}}] }}</td>
+        <td>{{ paths[{{row}}] }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}

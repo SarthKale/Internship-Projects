@@ -71,7 +71,6 @@ def convertToPDF(request):
         else:
             source = link+"/"+fileName
             convert_to("./docToPDF", source)
-    return render(request, 'api/show.html')
 
 
 def extractData():
@@ -108,14 +107,12 @@ def fillDatabase():
         Candidate.objects.create(
             mobile=mobile[row], email=email[row], location=location[row])
     Candidate.save()
+    createSheet()
+    return (mobile, email, location)
 
 
 def createSheet():
-    fillDatabase()
-    data = extractData()
-    mobile = data[0]
-    email = data[1]
-    location = data[2]
+    mobile, email, path = fillDatabase()
     workbook = xlsxwriter.Workbook('tmp.xlsx')
     sheet = workbook.add_worksheet()
     sheet.write(0, 0, "Email ID")
@@ -128,5 +125,16 @@ def createSheet():
             if col == 1:
                 sheet.write(row+1, col, email[row])
             if col == 2:
-                sheet.write(row+1, col, location[row].split('/')[-1])
+                sheet.write(row+1, col, path[row].split('/')[-1])
     workbook.close()
+
+
+def createTable(request):
+    createSheet()
+    mobiles, emails, paths = extractData()
+    values = {
+        'mobiles': mobiles,
+        'emails': emails,
+        'paths': paths
+    }
+    render(request, 'api/show.html', context=values)
