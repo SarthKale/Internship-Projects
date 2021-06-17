@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Hello</h1>
+<br>
+<h3>Hi, my name is {{name}} and I live in {{city}}.</h3>
+<h3>Aslo, my friend's name is {{xyz.name}} and I live in {{xyz.city}}.</h3>
+
+{% if flag %}
+{%for item in my_list%}
+{{item}} <br>
+{%endfor%}
+{% else %}
+{% for item in other_list %}
+{{item}} <br>
+{% endfor %}
+{%endif%}
+
+{% endblock %}
